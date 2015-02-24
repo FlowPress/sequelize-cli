@@ -8,7 +8,7 @@ var fs        = require("fs");
 var _         = require("lodash");
 
 ([
-  "db:migrate --storage='json'"
+  "db:migrate --storage json"
 ]).forEach(function(flag) {
   var prepare = function(callback, options) {
     options = _.assign({ config: {} }, options || {});
@@ -35,6 +35,8 @@ var _         = require("lodash");
 
       prepare(function() {
         expect(fs.statSync(jsonFile).isFile()).to.be(true);
+        expect(fs.readFileSync(jsonFile).toString())
+          .to.match(/^\[\n  "\d{14}-createPerson\.js"\n\]$/);
         done();
       });
     });
